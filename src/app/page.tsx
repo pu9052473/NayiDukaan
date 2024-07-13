@@ -24,21 +24,13 @@ const Page = () => {
     }
   }, []);
 
-  const logout = async () => {
-    try {
-      await signOut(auth);
-      localStorage.removeItem("User");
-      router.push("/Login");
-    } catch (error) {
-      console.error("Failed to logout:", error);
-    }
-  };
+
 
   if (loggedInUser) {
     return (
       <div className="flex flex-col items-center justify-center h-screen bg-gray-300">
         <p>Logged in as {loggedInUser.email}</p>
-        <button className="bg-red-500 text-white p-2 rounded" type="button" onClick={logout}>
+        <button className="bg-red-500 text-white p-2 rounded" type="button" >
           Logout
         </button>
       </div>
