@@ -18,7 +18,7 @@ const NavBar = () => {
     const [menuOpen, setMenuOpen] = useState(false);
 
     useEffect(() => {
-        const UserData = localStorage.getItem("User")?? null;
+        const UserData = localStorage.getItem("User") ?? null;
         if (UserData) {
             setLoggedInUser(JSON.parse(UserData));
         }
@@ -38,7 +38,7 @@ const NavBar = () => {
     return (
         <div className="h-20 bg-white flex justify-between items-center px-10 shadow-lg">
             <Link onClick={setFalse} href="/" className="text-2xl font-bold">
-                ShopEase
+                Nayi Dukaan
             </Link>
             <div className="categories flex items-center gap-10">
                 <Link
