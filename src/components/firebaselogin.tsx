@@ -19,10 +19,8 @@ import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
 
 const FirebaseLogin = () => {
     useEffect(() => {
-        // Check if the user is already signed in
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             if (user) {
-                // Redirect to home if the user is signed in
                 window.location.href = "/";
             }
         });
