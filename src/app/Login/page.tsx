@@ -1,4 +1,4 @@
-import FirebaseLogin from "@/components/firebaselogin";
+import FirebaseLogin from "@/Components/firebaselogin";
 
 const LoginPage = () => {
     return (

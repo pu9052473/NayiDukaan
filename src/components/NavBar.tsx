@@ -1,24 +1,33 @@
-"use client"
+"use client";
+
 import Link from "next/link";
+
 import React, { useEffect, useState } from "react";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "@/firebase/config";
+
+import { usePathname } from "next/navigation";
+
+import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
+
 import LoginIcon from "@mui/icons-material/Login";
-import PersonIcon from "@mui/icons-material/Person";
+
+import LogoutIcon from "@mui/icons-material/Logout";
+
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import EditIcon from "@mui/icons-material/Edit";
-import { GoPackageDependents } from "react-icons/go";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import SettingsIcon from "@mui/icons-material/Settings";
-import LogoutIcon from '@mui/icons-material/Logout';
-// Assuming you have an icon library imported
+
+import NavBarHemburgMenuAPI from "../API/NavBarHemburgMenuAPI";
+
+import StorefrontRoundedIcon from "@mui/icons-material/StorefrontRounded";
 
 const NavBar = () => {
+    const pathname = usePathname();
+
     const [loggedInUser, setLoggedInUser] = useState(null);
+
     const [menuOpen, setMenuOpen] = useState(false);
 
     useEffect(() => {
         const UserData = localStorage.getItem("User") ?? null;
+
         if (UserData) {
             setLoggedInUser(JSON.parse(UserData));
         }
@@ -27,115 +36,113 @@ const NavBar = () => {
     const handleMenuToggle = () => {
         setMenuOpen(!menuOpen);
     };
+
     const setFalse = () => {
-        setMenuOpen(false)
-    }
+        setMenuOpen(false);
+    };
+
     const handleSetUserNull = () => {
         setLoggedInUser(null);
+
         setFalse();
-    }
+    };
+
+    const navBarLinksClassName =
+        "text-gray-600 flex items-center gap-1 hover:text-gray-950 transition-colors duration-200";
+
+    const activePathClassName = "text-gray-950 font-medium";
 
     return (
-        <div className="h-20 bg-white flex justify-between items-center px-10 shadow-lg">
-            <Link onClick={setFalse} href="/" className="text-2xl font-bold">
+        <div className="h-20 w-screen bg-white flex justify-evenly items-center drop-shadow-md">
+            <Link onClick={setFalse} href="/" className="text-2xl font-bold w-1/10 ">
                 Nayi Dukaan
             </Link>
-            <div className="categories flex items-center gap-10">
+
+            <div className="categories flex items-center gap-7 w-2/3">
+                <div className="relative w-1/2 flex items-evenly rounded-lg bg-gray-100 focus:border-gray-500 border-gray-300">
+                    <button className=" w-1/12 place-content-center rounded-lg bg-gray-100 focus:outline-none">
+                        <SearchRoundedIcon className="h-5 w-5" />
+                    </button>
+
+                    <input
+                        type="text"
+                        placeholder="Search for products"
+                        onClick={setFalse}
+                        className="w-full py-2 px-4 bg-gray-100 focus:outline-none rounded-lg "
+                    />
+                </div>
+
                 <Link
-                    href="/"
-                    className="hover:text-gray-500 transition-colors duration-200"
-                >
-                    Home
-                </Link>
-                <Link
-                    href="/"
-                    className="hover:text-gray-500 transition-colors duration-200"
-                >
-                    Category
-                </Link>
-                <Link
-                    href="/"
-                    className="hover:text-gray-500 transition-colors duration-200"
-                >
-                    Contact Us
-                </Link>
-                <Link
-                    href="/"
-                    className="hover:text-gray-500 transition-colors duration-200"
+                    href="/CustomerDashboard/MyProfile/Wishlist"
+                    onClick={setFalse}
+                    className={`${navBarLinksClassName} ${pathname === "/CustomerDashboard/MyProfile/Wishlist"
+                            ? `${activePathClassName}`
+                            : ""
+                        }`}
                 >
                     Wishlist
                 </Link>
+
+                <Link
+                    href="/BecomeSellerForm"
+                    onClick={setFalse}
+                    className={`${navBarLinksClassName} ${pathname === "/BecomeSellerForm" ? `${activePathClassName}` : ""
+                        }`}
+                >
+                    <StorefrontRoundedIcon className="h-5 w-5" />
+                    Become a Seller
+                </Link>
             </div>
-            <div className="flex items-center">
+
+            <div className="flex items-center w-1/10">
                 {loggedInUser && (
-                    <div className="relative flex items-center">
-                        <div className="cursor-pointer "
+                    <div className="relative flex  items-center ">
+                        <div
+                            className="cursor-pointer flex align-middle gap-2 "
                             onClick={handleMenuToggle}
                         >
-
+                            <AccountCircleIcon className="h-6 w-6 " />
                             Hy, {loggedInUser.displayName}
-                            {"  "}
-                            <AccountCircleIcon
-                                className="h-6 w-6 ml-1"
-                            />
                         </div>
 
                         {menuOpen && (
-                            <div className="absolute top-10 right-0 mt-2 w-48 bg-white rounded shadow-lg z-10">
-                                <Link onClick={handleMenuToggle}
-                                    href="/CustomerDashboard/MyProfile"
-                                    className="px-4 py-2 text-gray-800 hover:bg-gray-100 flex gap-2"
-                                >
-                                    Profile Details{" "}
-                                    <PersonIcon className="h-5 w-5 cursor-pointer" />
-                                </Link>
-                                <Link onClick={handleMenuToggle}
-                                    href="/CustomerDashboard/MyProfile/MyOrders"
-                                    className="px-4 py-2 text-gray-800 hover:bg-gray-100 flex gap-2"
-                                >
-                                    My Orders
-                                    <GoPackageDependents className="h-5 w-5 cursor-pointer" />
-                                </Link>
-                                <Link onClick={handleMenuToggle}
-                                    href="/CustomerDashboard/MyProfile/MyCart"
-                                    className="px-4 py-2 text-gray-800 hover:bg-gray-100 flex gap-2"
-                                >
-                                    My Cart{" "}
-                                    <ShoppingCartIcon className="h-5 w-5 cursor-pointer" />
-                                </Link>
-                                <Link onClick={handleMenuToggle}
-                                    href="/CustomerDashboard/MyProfile/Wishlist"
-                                    className="px-4 py-2 text-gray-800 hover:bg-gray-100 flex gap-2"
-                                >
-                                    Wishlist{" "}
-                                    <ShoppingCartIcon className="h-5 w-5 cursor-pointer" />
-                                </Link>
-                                <Link onClick={handleMenuToggle}
-                                    href="/CustomerDashboard/MyProfile/EditProfile"
-                                    className="px-4 py-2 text-gray-800 hover:bg-gray-100 flex gap-2"
-                                >
-                                    Edit Profile <EditIcon className="h-5 w-5 cursor-pointer" />
-                                </Link>
-                                <Link onClick={handleMenuToggle}
-                                    href="/CustomerDashboard/Setting"
-                                    className="px-4 py-2 text-gray-800 hover:bg-gray-100 flex gap-2"
-                                >
-                                    Setting <SettingsIcon className="h-5 w-5 cursor-pointer" />
-                                </Link>
+                            <div className="absolute top-10 right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10">
+                                {NavBarHemburgMenuAPI.map((item) => {
+                                    return (
+                                        <Link
+                                            onClick={handleMenuToggle}
+                                            href={item.href}
+                                            className={` ${navBarLinksClassName}  px-4 py-2 flex gap-2 hover:bg-gray-100 ${pathname === item.href ? `${activePathClassName}` : ""
+                                                }`}
+                                            key={item.href}
+                                        >
+                                            {item.icon}
+
+                                            {item.title}
+                                        </Link>
+                                    );
+                                })}
+
                                 <Link
                                     href="/Logout"
                                     onClick={handleSetUserNull}
-                                    className="px-4 py-2 text-red-500 hover:bg-gray-100 flex gap-2"
+                                    className="text-red-600 item-center transition-colors duration-200 px-4 py-2 flex gap-2 hover:bg-gray-100 "
                                 >
-                                    Logout <LogoutIcon className=" h-5 w-5 cursor-pointer" />
+                                    <LogoutIcon className=" h-5 w-5 cursor-pointer" />
+                                    Logout
                                 </Link>
                             </div>
                         )}
                     </div>
                 )}
+
                 {!loggedInUser && (
-                    <Link href="/Login" >
-                        Log In <LoginIcon className="h-6 w-6 cursor-pointer" />
+                    <Link
+                        href="/Login"
+                        className=" text-gray-950 font-medium item-center transition-colors duration-200 px-4 py-2 flex gap-2 hover:text-gray-700"
+                    >
+                        Log In
+                        <LoginIcon className="h-6 w-6 cursor-pointer" />
                     </Link>
                 )}
             </div>

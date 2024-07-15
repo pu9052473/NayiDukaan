@@ -1,6 +1,6 @@
 import React from "react";
 
-import CustomerDashboardBox from "../../../../Components/CustomerDashboardBox";
+import CustomerDashboardBox from "../../../Components/CustomerDashboardBox";
 
 const page = () => {
     return (
@@ -8,7 +8,9 @@ const page = () => {
             <CustomerDashboardBox />
 
             <main className="w-4/5 p-6">
-                <h2 className="text-2xl font-semibold mb-4 text-gray-800">My Cart</h2>
+                <h2 className="text-2xl font-semibold mb-4 text-gray-800">
+                    Customer Care
+                </h2>
             </main>
         </div>
     );
