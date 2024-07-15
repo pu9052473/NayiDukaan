@@ -1,5 +1,5 @@
 import React from 'react';
-import DashboardLayout from '../../components/DashboardLayout';
+import DashboardLayout from '../../Components/DashboardLayout';
 import { Typography } from '@mui/material';
 
 const Dashboard: React.FC = () => {

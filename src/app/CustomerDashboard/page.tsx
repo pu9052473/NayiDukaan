@@ -1,11 +1,17 @@
-import React from 'react'
+"use client";
+
+import CustomerDashboardBox from "../../Components/CustomerDashboardBox";
 
 const page = () => {
-    return (
-        <div>
-            Redirect to my profile
-        </div>
-    )
-}
+  return (
+    <>
+      <div className="flex h-screen">
+        <CustomerDashboardBox />
 
-export default page
+        <main className="w-4/5 p-6"></main>
+      </div>
+    </>
+  );
+};
+
+export default page;
