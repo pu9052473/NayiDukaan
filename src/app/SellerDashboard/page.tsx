@@ -1,14 +1,17 @@
-import React from 'react';
-import DashboardLayout from '../../Components/DashboardLayout';
-import { Typography } from '@mui/material';
+"use client";
 
-const Dashboard: React.FC = () => {
+import SellerDashboardBox from "../../Components/SellerDashboardBox";
+
+const page = () => {
   return (
-    <DashboardLayout>
-      <Typography variant="h6">Welcome to the Dashboard</Typography>
-      {/* Add dashboard content here */}
-    </DashboardLayout>
+    <>
+      <div className="flex h-screen">
+        <SellerDashboardBox />
+
+        <main className="w-4/5 p-6"></main>
+      </div>
+    </>
   );
 };
 
-export default Dashboard;
+export default page;

@@ -21,9 +21,9 @@ const userData = {
 
     phone: "90000 00000",
 
-    customer: "true",
+    customer: "False",
 
-    seller: "false",
+    seller: "True",
 };
 
 const page = () => {

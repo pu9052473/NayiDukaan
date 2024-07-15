@@ -1,6 +1,9 @@
 "use client";
 
 import CustomerDashboardBox from "../../../Components/CustomerDashboardBox";
+import Button from "@mui/material/Button";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 const userData = {
     Name: "abc abc",
@@ -27,6 +30,8 @@ const userData = {
 };
 
 const page = () => {
+    const pathname = usePathname();
+
     const displayedUserData = Object.fromEntries(
         Object.entries(userData).filter(
             ([key]) => key !== "customer" && key !== "seller"
@@ -40,7 +45,7 @@ const page = () => {
 
                 <main className="w-4/5 p-6">
                     <h2 className="text-2xl font-semibold mb-4 text-gray-800">
-                     Customer Profile Page
+                        Customer Profile Page
                     </h2>
 
                     <div className="flex items-center space-x-6">
@@ -54,6 +59,9 @@ const page = () => {
                             </ul>
                         </div>
                     </div>
+                    <Link href="/CustomerDashboard/MyProfile/EditProfile">
+                        <Button variant="contained">Edit Profile</Button>
+                    </Link>
                 </main>
             </div>
         </>

@@ -1,16 +1,16 @@
 import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
 
-import { FiPackage } from "react-icons/fi";
-
-import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
-
 import ModeEditRoundedIcon from "@mui/icons-material/ModeEditRounded";
-
-import ShoppingCartRoundedIcon from "@mui/icons-material/ShoppingCartRounded";
 
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 
-import WalletRoundedIcon from '@mui/icons-material/WalletRounded';
+import { TbListDetails } from "react-icons/tb";
+
+import { TbShoppingBagPlus } from "react-icons/tb";
+
+import { TbShoppingBagEdit } from "react-icons/tb";
+
+import AnalyticsRoundedIcon from "@mui/icons-material/AnalyticsRounded";
 
 const iconClassName = "h-5 w-5 cursor-pointer";
 
@@ -24,44 +24,43 @@ const SellerDashboardPagesAPI = [
     },
 
     {
-        title: ".....",
+        title: "Your Products",
 
-        href: "/SellerDashboard/MyProfile/",
+        href: "/SellerDashboard/Products",
 
-        icon: <FiPackage className={iconClassName} />,
+        icon: <TbListDetails className={iconClassName} />,
     },
 
     {
-        title: ".....",
+        title: "Add Products",
 
-        href: "/SellerDashboard/MyProfile/",
+        href: "/SellerDashboard/Products/AddProducts",
 
-        icon: <ShoppingCartRoundedIcon className={iconClassName} />,
+        icon: <TbShoppingBagPlus className={iconClassName} />,
     },
 
     {
-        title: "......",
+        title: "Edit Products",
 
-        href: "/CustomerDashboard/MyProfile/",
+        href: "/SellerDashboard/Products/Edit$id",
 
-        icon: <FavoriteBorderRoundedIcon className={iconClassName} />,
+        icon: <TbShoppingBagEdit className={iconClassName} />,
     },
 
+    {
+        title: "Analytics",
+
+        href: "/SellerDashboard/Analytics",
+
+        icon: <AnalyticsRoundedIcon className={iconClassName} />,
+    },
     {
         title: "Edit Profile",
 
-        href: "/CustomerDashboard/MyProfile/EditProfile",
+        href: "/SellerDashboard/MyProfile/EditProfile",
 
         icon: <ModeEditRoundedIcon className={iconClassName} />,
     },
-    {
-        title: ".......",
-
-        href: "/CustomerDashboard/MyProfile/",
-
-        icon: <WalletRoundedIcon className={iconClassName} />,
-    },
-
 
     {
         title: "Setting",

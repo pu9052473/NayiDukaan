@@ -1,6 +1,6 @@
 "use client";
 
-import SellerDashboardPagesAPI from "../API/CustomerDashboardPagesAPI";
+import SellerDashboardPagesAPI from "../API/SellerDashboardPagesAPI";
 
 import Link from "next/link";
 
