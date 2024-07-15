@@ -1,32 +1,20 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import CustomerDashboardBox from "../../../Components/CustomerDashboardBox";
+import { User } from "@/types.index";
 
-const userData = {
-    Name: "abc abc",
-
-    Email: "abc@abc.in",
-
-    Address: "123 Main Street",
-
-    Pincode: "123456",
-
-    DateOfBirth: "00-00-0000",
-
-    City: "Visnagar",
-
-    State: "Gujarat",
-
-    Country: "India",
-
-    phone: "90000 00000",
-
-    customer: "true",
-
-    seller: "false",
-};
 
 const page = () => {
+    const [userData, setUserData] = useState<User>({});
+
+    useEffect(() => {
+        const UserFromLocalStorage = localStorage.getItem("User");
+        const user = JSON.parse(UserFromLocalStorage)
+        console.log(user);
+        setUserData(user)
+    }, [])
+
     const displayedUserData = Object.fromEntries(
         Object.entries(userData).filter(
             ([key]) => key !== "customer" && key !== "seller"
@@ -40,7 +28,7 @@ const page = () => {
 
                 <main className="w-4/5 p-6">
                     <h2 className="text-2xl font-semibold mb-4 text-gray-800">
-                     Customer Profile Page
+                        Customer Profile Page
                     </h2>
 
                     <div className="flex items-center space-x-6">
