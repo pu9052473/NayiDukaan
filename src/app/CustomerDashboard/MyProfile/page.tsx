@@ -1,36 +1,21 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import CustomerDashboardBox from "../../../Components/CustomerDashboardBox";
-import Button from "@mui/material/Button";
-import { usePathname } from "next/navigation";
+import { User } from "@/types.index";
+import { Button } from "@mui/material";
 import Link from "next/link";
 
-const userData = {
-    Name: "abc abc",
-
-    Email: "abc@abc.in",
-
-    Address: "123 Main Street",
-
-    Pincode: "123456",
-
-    DateOfBirth: "00-00-0000",
-
-    City: "Visnagar",
-
-    State: "Gujarat",
-
-    Country: "India",
-
-    phone: "90000 00000",
-
-    customer: "true",
-
-    seller: "false",
-};
 
 const page = () => {
-    const pathname = usePathname();
+    const [userData, setUserData] = useState<User>({});
+
+    useEffect(() => {
+        const UserFromLocalStorage = localStorage.getItem("User");
+        const user = JSON.parse(UserFromLocalStorage)
+        console.log(user);
+        setUserData(user)
+    }, [])
 
     const displayedUserData = Object.fromEntries(
         Object.entries(userData).filter(

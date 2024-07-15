@@ -1,12 +1,14 @@
 "use client";
 
 import CustomerDashboardPagesAPI from "../API/CustomerDashboardPagesAPI";
-
+import { User } from "@/types.index";
 import Link from "next/link";
 
 import { usePathname } from "next/navigation";
 
 const page = () => {
+  const user = localStorage.getItem("User");
+  const userObject: User = JSON.parse(user);
   const pathname = usePathname();
 
   const activePathClassName = "text-gray-950 font-medium";
@@ -18,7 +20,7 @@ const page = () => {
           <h2 className=" font-bold text-gray-900">Customer Profile</h2>
 
           <img
-            src="https://via.placeholder.com/150"
+            src={userObject.photo}
             alt="User Avatar"
             className="w-24 h-24 rounded-full mx-auto"
           />
