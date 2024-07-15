@@ -2,11 +2,10 @@
 
 import { useEffect } from "react";
 
-import { auth, GoogleAuthProvider } from "../firebase/config";
+import { auth, db, GoogleAuthProvider } from "../firebase/config";
 
-import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 
-import { signInWithPopup } from "firebase/auth";
+import { onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 
 import { ToastContainer, toast } from "react-toastify";
 
@@ -15,39 +14,41 @@ import "react-toastify/dist/ReactToastify.css";
 import "firebaseui/dist/firebaseui.css";
 
 import { FcGoogle } from "react-icons/fc";
+import Link from "next/link";
+import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
 
 const FirebaseLogin = () => {
-    const [signInWithEmailAndPassword, userEmail, loadingEmail, errorEmail] =
-        useSignInWithEmailAndPassword(auth);
-
     useEffect(() => {
-        if (userEmail) {
-            localStorage.setItem("User", JSON.stringify(userEmail.user));
+        // Check if the user is already signed in
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // Redirect to home if the user is signed in
+                window.location.href = "/";
+            }
+        });
 
-            window.location.href = "/";
-        }
-    }, [userEmail]);
-
-    useEffect(() => {
-        if (errorEmail) {
-            toast.error("Login failed: Email ID does not exist.");
-        }
-    }, [errorEmail]);
+        return () => unsubscribe();
+    }, []);
 
     const handleEmailLogin = async () => {
         const email = (document.getElementById("email") as HTMLInputElement).value;
 
-        const password = (document.getElementById("password") as HTMLInputElement)
-            .value;
+        const password = (document.getElementById("password") as HTMLInputElement).value;
 
         try {
-            if (!errorEmail) {
-                const result = await signInWithEmailAndPassword(email, password);
-
-                localStorage.setItem("User", JSON.stringify(result?.user));
-
-                window.location.href = "/";
-            }
+            signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    const user = userCredential?.user;
+                    console.log(user);
+                    localStorage.setItem("User", JSON.stringify(user));
+                    toast.success("Logged in succesfull");
+                    window.location.href = "/";
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    toast.error(errorCode, errorMessage);
+                });
         } catch (error) {
             console.error("Login failed:", error);
         }
@@ -56,10 +57,23 @@ const FirebaseLogin = () => {
     const handleGoogleLogin = async () => {
         try {
             const result = await signInWithPopup(auth, new GoogleAuthProvider());
+            const userObject = {
+                name: result.user.displayName || "",
+                email: result.user.email || "",
+                address: "",
+                pincode: "",
+                dateOfBirth: "",
+                city: "",
+                state: "",
+                country: "",
+                phone: "",
+                isSeller: false,
+                photo: result.user.photoURL || "",
+                uid: result.user.uid,
+            };
 
-            localStorage.setItem("User", JSON.stringify(result.user));
-
-            window.location.href = "/";
+            const userWithId = { ...userObject };
+            localStorage.setItem("User", JSON.stringify(userWithId));
         } catch (error) {
             console.error("Error signing in with Google", error);
         }
@@ -102,7 +116,7 @@ const FirebaseLogin = () => {
                     <FcGoogle className="inline-block ml-2" /> Login with Google{" "}
                 </button>
 
-                {loadingEmail && <p className="text-center mt-4">Loading...</p>}
+                <Link className="text-blue-400 underline mt-5" href="/Signup">Or Signup</Link>
 
                 <ToastContainer />
             </div>

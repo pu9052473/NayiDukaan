@@ -28,7 +28,7 @@ const NavBar = () => {
     useEffect(() => {
         const UserData = localStorage.getItem("User") ?? null;
 
-        if (UserData) {
+        if (UserData != null) {
             setLoggedInUser(JSON.parse(UserData));
         }
     }, []);
@@ -76,8 +76,8 @@ const NavBar = () => {
                     href="/CustomerDashboard/MyProfile/Wishlist"
                     onClick={setFalse}
                     className={`${navBarLinksClassName} ${pathname === "/CustomerDashboard/MyProfile/Wishlist"
-                            ? `${activePathClassName}`
-                            : ""
+                        ? `${activePathClassName}`
+                        : ""
                         }`}
                 >
                     Wishlist
@@ -102,7 +102,7 @@ const NavBar = () => {
                             onClick={handleMenuToggle}
                         >
                             <AccountCircleIcon className="h-6 w-6 " />
-                            Hy, {loggedInUser.displayName}
+                            Hy, {loggedInUser.name}
                         </div>
 
                         {menuOpen && (
