@@ -1,21 +1,27 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import CustomerDashboardBox from "../../../Components/CustomerDashboardBox";
-import { User } from "@/types.index";
-import { Button } from "@mui/material";
-import Link from "next/link";
 
+import CustomerDashboardBox from "../../../Components/CustomerDashboardBox";
+
+import { User } from "@/types.index";
+
+import { Button } from "@mui/material";
+
+import Link from "next/link";
 
 const page = () => {
     const [userData, setUserData] = useState<User>({});
 
     useEffect(() => {
         const UserFromLocalStorage = localStorage.getItem("User");
-        const user = JSON.parse(UserFromLocalStorage)
+
+        const user = JSON.parse(UserFromLocalStorage);
+
         console.log(user);
-        setUserData(user)
-    }, [])
+
+        setUserData(user);
+    }, []);
 
     const displayedUserData = Object.fromEntries(
         Object.entries(userData).filter(
@@ -44,6 +50,7 @@ const page = () => {
                             </ul>
                         </div>
                     </div>
+
                     <Link href="/CustomerDashboard/MyProfile/EditProfile">
                         <Button variant="contained">Edit Profile</Button>
                     </Link>
