@@ -27,7 +27,7 @@ const page = () => {
 
           <h3 className="text-xl font-semibold text-gray-900">
             Welcome {"  "}
-            <b>Your Name !</b>
+            <b>{userObject.name}</b>
           </h3>
         </div>
 

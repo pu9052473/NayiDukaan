@@ -6,7 +6,7 @@ import { GoogleAuthProvider, createUserWithEmailAndPassword, signInWithPopup } f
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { FcGoogle } from "react-icons/fc";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, doc, setDoc } from "firebase/firestore";
 
 const FirebaseAuth = () => {
   const [email, setEmail] = useState("");
@@ -32,11 +32,10 @@ const FirebaseAuth = () => {
         uid: user.uid,
       };
 
-      const docRef = await addDoc(collection(db, "User"), userObject);
-      console.log("Document written with ID: ", docRef.id);
+      const docRef = await setDoc(doc(db, "User", userObject.uid), userObject);
+      console.log("Document written with ID: ", docRef);
 
-      const userWithId = { ...userObject, id: docRef.id };
-      localStorage.setItem("User", JSON.stringify(userWithId));
+      localStorage.setItem("User", JSON.stringify(userObject));
 
       toast.success("Signed up successfully!");
       window.location.href = "/"
@@ -65,14 +64,12 @@ const FirebaseAuth = () => {
         phone: "",
         isSeller: false,
         photo: userData.photoURL || "",
-        uid: userData.uid,
       };
 
-      const docRef = await addDoc(collection(db, "User"), userObject);
-      console.log("Document written with ID: ", docRef.id);
+      const docRef = await setDoc(doc(db, "User", userData.uid), userObject);
+      console.log("Document written with ID: ", docRef);
 
-      const userWithId = { ...userObject, id: docRef.id };
-      localStorage.setItem("User", JSON.stringify(userWithId));
+      localStorage.setItem("User", JSON.stringify(userObject));
 
       toast.success("Signed up successfully!");
       window.location.href = "/"
