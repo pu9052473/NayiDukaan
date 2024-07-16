@@ -1,35 +1,26 @@
 "use client";
 
-import SellerDashboardBox from "../../../Components/SellerDashboardBox";
-
-const userData = {
-    Name: "abc abc",
-
-    Email: "abc@abc.in",
-
-    Address: "123 Main Street",
-
-    Pincode: "123456",
-
-    DateOfBirth: "00-00-0000",
-
-    City: "Visnagar",
-
-    State: "Gujarat",
-
-    Country: "India",
-
-    phone: "90000 00000",
-
-    customer: "False",
-
-    seller: "True",
-};
+import { useEffect, useState } from "react";
+import { User } from "@/types.index";
+import { Button } from "@mui/material";
+import Link from "next/link";
+import SellerDashboardBox from "@/Components/SellerDashboardBox";
 
 const page = () => {
+    const [userData, setUserData] = useState<User>({});
+
+    useEffect(() => {
+        const UserFromLocalStorage = localStorage.getItem("User") ?? "";
+        const user = JSON.parse(UserFromLocalStorage);
+        console.log(user);
+        setUserData(user);
+    }, []);
+
+    const hiddenKeys = ["isSeller", "uid", "photo"];
+
     const displayedUserData = Object.fromEntries(
         Object.entries(userData).filter(
-            ([key]) => key !== "customer" && key !== "seller"
+            ([key]) => !hiddenKeys.includes(key)
         )
     );
 
@@ -54,6 +45,9 @@ const page = () => {
                             </ul>
                         </div>
                     </div>
+                    <Link href="/SellerDashboard/MyProfile/EditProfile">
+                        <Button variant="contained">Edit Profile</Button>
+                    </Link>
                 </main>
             </div>
         </>

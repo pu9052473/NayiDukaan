@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useEffect, useState } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { ToastContainer, toast } from "react-toastify";
@@ -43,6 +43,8 @@ const EditProfileForm = () => {
     const [phone, setPhone] = useState(user?.phone);
     const [pincode, setPincode] = useState(user?.pincode);
     const [state, setState] = useState(user?.state);
+    const [shopName, setShopName] = useState(user?.ShopName || "");
+    const [shopAddress, setShopAddress] = useState(user?.ShopAddress || "");
     const [file, setFile] = useState(null);
 
     const handleFileChange = (e) => {
@@ -74,9 +76,14 @@ const EditProfileForm = () => {
             photo: photoURL,
         };
 
-        try {
-            UpdateDocument("User", user.uid, updatedData); //Update documen in collection
+        if (user.isSeller) {
+            updatedData.ShopName = shopName;
+            updatedData.ShopAddress = shopAddress;
+        }
 
+        try {
+            // Update document in Firestore
+            await UpdateDocument("User", user.uid, updatedData);
 
             // Update user details in Authentication
             const updateAuthProfile = updateProfile(currentUser, {
@@ -84,7 +91,7 @@ const EditProfileForm = () => {
                 phoneNumber: updatedData.phone,
             });
 
-            // Update User in localstorage
+            // Update User in local storage
             const updateLocalStorage = new Promise<void>((resolve) => {
                 const localStorageUser = JSON.parse(localStorage.getItem('User') || '{}');
                 const updatedLocalStorageUser = { ...localStorageUser, ...updatedData };
@@ -93,7 +100,7 @@ const EditProfileForm = () => {
             });
 
             // Waiting for all functions to be finished
-            await Promise.all([UpdateDocument, updateAuthProfile, updateLocalStorage]);
+            await Promise.all([updateAuthProfile, updateLocalStorage]);
 
             toast.success("Profile updated successfully!");
 
@@ -185,6 +192,28 @@ const EditProfileForm = () => {
                     className="w-full border border-gray-300 p-2 rounded"
                 />
             </div>
+            {user.isSeller && (
+                <>
+                    <div>
+                        <input
+                            type="text"
+                            value={shopName}
+                            onChange={(e) => setShopName(e.target.value)}
+                            placeholder="Shop Name"
+                            className="w-full border border-gray-300 p-2 rounded"
+                        />
+                    </div>
+                    <div>
+                        <input
+                            type="text"
+                            value={shopAddress}
+                            onChange={(e) => setShopAddress(e.target.value)}
+                            placeholder="Shop Address"
+                            className="w-full border border-gray-300 p-2 rounded"
+                        />
+                    </div>
+                </>
+            )}
             <div>
                 <input
                     type="file"
