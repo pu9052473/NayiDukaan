@@ -15,13 +15,16 @@ import HeadsetMicRoundedIcon from "@mui/icons-material/HeadsetMicRounded";
 const iconClassName = "h-5 w-5 cursor-pointer";
 
 const user = localStorage.getItem("User") ?? "";
-const UserData = JSON.parse(user);
-
+let UserData;
+if (user) {
+    UserData = JSON.parse(user);
+}
+console.log(UserData)
 const NavBarHemburgMenuAPI = [
     {
         title: "Profile Details",
 
-        href: `/${UserData.isSeller ? "SellerDashboard" : "CustomerDashboard"}/MyProfile`,
+        href: `/${UserData?.isSeller ? "SellerDashboard" : "CustomerDashboard"}/MyProfile`,
 
         icon: <PersonRoundedIcon className={iconClassName} />,
     },
@@ -53,7 +56,7 @@ const NavBarHemburgMenuAPI = [
     {
         title: "Edit Profile",
 
-        href: `/${UserData.isSeller ? "SellerDashboard" : "CustomerDashboard"}/MyProfile/EditProfile`,
+        href: `/${UserData?.isSeller ? "SellerDashboard" : "CustomerDashboard"}/MyProfile/EditProfile`,
 
         icon: <ModeEditRoundedIcon className={iconClassName} />,
     },
@@ -69,7 +72,7 @@ const NavBarHemburgMenuAPI = [
     {
         title: "Setting",
 
-        href: `/${UserData.isSeller ? "SellerDashboard" : "CustomerDashboard"}/Setting`,
+        href: `/${UserData?.isSeller ? "SellerDashboard" : "CustomerDashboard"}/Setting`,
 
         icon: <SettingsOutlinedIcon className={iconClassName} />,
     },

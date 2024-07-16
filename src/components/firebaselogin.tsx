@@ -10,7 +10,7 @@ import {
     signInWithPopup,
 } from "firebase/auth";
 
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer, toast } from`` "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
 
@@ -20,7 +20,6 @@ import { FcGoogle } from "react-icons/fc";
 
 import Link from "next/link";
 
-import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
 
 const FirebaseLogin = () => {
     useEffect(() => {
