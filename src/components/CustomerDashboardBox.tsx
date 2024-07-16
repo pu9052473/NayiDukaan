@@ -5,11 +5,19 @@ import { User } from "@/types.index";
 import Link from "next/link";
 
 import { usePathname } from "next/navigation";
+import { useEffect } from "react";
 
 const page = () => {
-  const user = localStorage.getItem("User");
+  const user = localStorage.getItem("User") ?? "";
   const userObject: User = JSON.parse(user);
   const pathname = usePathname();
+
+  useEffect(() => {
+    // Check if user is seller
+    if (userObject.isSeller) {
+      window.location.href = "/SellerDashboard/MyProfile"
+    }
+  }, [])
 
   const activePathClassName = "text-gray-950 font-medium";
 

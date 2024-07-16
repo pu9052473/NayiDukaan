@@ -10,5 +10,7 @@ export interface User {
     photo: string,
     pincode: string,
     state: string,
-    uid: string
+    uid: string,
+    ShopName?: string,
+    ShopAddress?: string,
 }

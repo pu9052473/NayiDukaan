@@ -1,6 +1,8 @@
 "use client";
 
-import SellerDashboardBox from "../../Components/SellerDashboardBox";
+import SellerDashboardBox from "@/Components/SellerDashboardBox";
+
+
 
 const page = () => {
   return (
