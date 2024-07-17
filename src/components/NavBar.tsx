@@ -9,23 +9,17 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import NavBarHemburgMenuAPI from "../API/NavBarHemburgMenuAPI";
 import StorefrontRoundedIcon from "@mui/icons-material/StorefrontRounded";
+import { useUserData } from "@/context/Usercontext/UserDataContext";
 
 const NavBar = () => {
     const pathname = usePathname();
     const [loggedInUser, setLoggedInUser] = useState(null);
     const [menuOpen, setMenuOpen] = useState(false);
 
-    useEffect(() => {
-        const user = localStorage.getItem("User");
-        if (user) {
-            try {
-                setLoggedInUser(JSON.parse(user));
-            } catch (error) {
-                console.error("Failed to parse user from localStorage", error);
-            }
-        }
-    }, []);
 
+    const { state } = useUserData();
+    const { user } = state;
+    console.log(user)
     const handleMenuToggle = () => {
         setMenuOpen(!menuOpen);
     };
@@ -43,7 +37,12 @@ const NavBar = () => {
     const navBarLinksClassName = "text-gray-600 flex items-center gap-1 hover:text-gray-950 transition-colors duration-200";
     const activePathClassNameNavBar = "text-gray-950 font-medium";
     const activePathClassNameHemBurg = "text-gray-950 font-medium bg-theme2";
-
+    if (state.loading) {
+        return <>Loading...</>
+    }
+    if (state.error) {
+        console.log(state.error)
+    }
     return (
         <div className="h-20 w-screen bg-theme3 flex justify-evenly items-center">
             <Link onClick={setFalse} href="/" className="text-2xl font-bold w-1/10 ">
@@ -74,14 +73,14 @@ const NavBar = () => {
             </div>
 
             <div className="flex items-center w-1/10">
-                {loggedInUser ? (
+                {user ? (
                     <div className="relative flex items-center">
                         <div
                             className="cursor-pointer flex align-middle gap-2"
                             onClick={handleMenuToggle}
                         >
                             <AccountCircleIcon className="h-6 w-6" />
-                            Hi, {loggedInUser.name}
+                            Hi, {user.name}
                         </div>
 
                         {menuOpen && (

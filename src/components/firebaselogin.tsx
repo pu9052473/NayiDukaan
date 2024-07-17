@@ -10,7 +10,7 @@ import {
     signInWithPopup,
 } from "firebase/auth";
 
-import { ToastContainer, toast } from`` "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
 
@@ -67,7 +67,7 @@ const FirebaseLogin = () => {
     const handleGoogleLogin = async () => {
         try {
             const result = await signInWithPopup(auth, new GoogleAuthProvider());
-
+            console.log(result.user.uid)
             const userObject = {
                 name: result.user.displayName || "",
 
@@ -94,9 +94,9 @@ const FirebaseLogin = () => {
                 uid: result.user.uid,
             };
 
-            const userWithId = { ...userObject };
+            // const userWithId = { ...userObject };
 
-            localStorage.setItem("User", JSON.stringify(userWithId));
+            localStorage.setItem("User", JSON.stringify(userObject));
         } catch (error) {
             console.error("Error signing in with Google", error);
         }

@@ -1,33 +1,22 @@
 "use client";
 
-import { auth } from "@/firebase/config";
-
-import { signOut } from "firebase/auth";
-
+import { useUserData } from "@/context/Usercontext/UserDataContext";
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
-import { useEffect } from "react";
-
-const page = () => {
+const LogoutPage = () => {
   const router = useRouter();
+  const { logoutUser } = useUserData();
 
   useEffect(() => {
-    logout();
-  }, []);
-
-  const logout = async () => {
-    try {
-      await signOut(auth);
-
-      localStorage.removeItem("User");
-
+    const logout = async () => {
+      await logoutUser();
       router.push("/Login");
-    } catch (error) {
-      console.error("Failed to logout:", error);
-    }
-  };
+    };
+    logout();
+  }, [logoutUser, router]);
 
   return <>Loading...</>;
 };
 
-export default page;
+export default LogoutPage;

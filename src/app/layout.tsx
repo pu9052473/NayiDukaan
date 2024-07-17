@@ -4,7 +4,8 @@ import { Inter } from "next/font/google";
 
 import "./globals.css";
 
-import NavBar from "@/Components/NavBar";
+import { UserDataProvider } from "@/context/Usercontext/UserDataContext";
+import NavBar from "@/components/NavBar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,9 +23,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} overflow-x-hidden`}>
-        <NavBar />
+        <UserDataProvider>
+          <NavBar />
+          {children}
+        </UserDataProvider>
 
-        {children}
       </body>
     </html>
   );

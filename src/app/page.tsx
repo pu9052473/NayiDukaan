@@ -1,38 +1,28 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-
-import { useEffect, useState } from "react";
+import { useUserData } from "@/context/Usercontext/UserDataContext";
 
 export interface User {
   email: string;
-
   name: string;
 }
 
 const Page = () => {
-  const router = useRouter();
+  const { state } = useUserData();
+  const { user, error } = state;
 
-  const [loggedInUser, setLoggedInUser] = useState<User | null>(null);
-
-  useEffect(() => {
-    const userData = localStorage.getItem("User");
-
-    if (userData) {
-      const user = JSON.parse(userData);
-
-      setLoggedInUser(user);
-
-      console.log("Logged in user:", user);
-    }
-  }, []);
-
+  // console.log("User from Home Page:", state);
+  if (error) {
+    console.log(error)
+  }
+  if (state.loading) {
+    return (<></>)
+  }
   return (
-    <>
-      <div className="w-screen h-screen flex flex-col justify-center items-center">
-        This is Home Page
-      </div>
-    </>
+    <div className="w-screen h-screen flex flex-col justify-center items-center">
+      This is Home Page
+      {user && <div>Welcome, {user.name}</div>}
+    </div>
   );
 };
 
