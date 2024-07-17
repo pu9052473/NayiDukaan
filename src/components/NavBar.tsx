@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { usePathname } from "next/navigation";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import LoginIcon from "@mui/icons-material/Login";
@@ -19,7 +19,7 @@ const NavBar = () => {
 
     const { state } = useUserData();
     const { user } = state;
-    console.log(user)
+    // console.log(user)
     const handleMenuToggle = () => {
         setMenuOpen(!menuOpen);
     };

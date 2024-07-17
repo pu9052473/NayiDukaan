@@ -7,6 +7,6 @@ export const UpdateDocument = async(collectionName:string,documentID:string,upda
         await updateDoc(docRef,updatedData);
         
     } catch (error) {
-        
+        console.log(error)
     }
 }

@@ -1,39 +1,20 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import { doc, getDoc } from "firebase/firestore";
+import React, { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { User } from "@/types.index";
-import { onAuthStateChanged, updateProfile } from "firebase/auth";
-import { auth, db } from "@/firebase/config";
-import { UpdateDocument } from "@/utils/EditData";
+import { useUserData } from "@/context/Usercontext/UserDataContext";
 
 const EditProfileForm = () => {
-    const [currentUser, setCurrentUser] = useState();
-    useEffect(() => {
-        // Checking if user is authenticated
-        const unsubscribe = onAuthStateChanged(auth, async (u) => {
-            // console.log(u);
-            if (u) {
-                setCurrentUser(u);
-                const uRef = doc(db, "User", u.uid);
-                const docSnap = await getDoc(uRef);
 
-                if (!docSnap.exists()) {
-                    console.log("No such document!");
-                    window.location.href = "/Login"
-                }
-            } else {
-                console.log("No user is signed in.");
-            }
-        });
-        return () => unsubscribe();
-
-    }, [])
-
-    const UserFromLocalStorage = localStorage.getItem("User") || "";
-    const user: User = JSON.parse(UserFromLocalStorage)
+    const { state, EditUser } = useUserData();
+    const { user } = state;
+    if (state.error) {
+        console.log(state.error);
+    }
+    if (state.loading) {
+        return <>Loading...</>
+    }
 
     const [name, setName] = useState(user?.name);
     const [address, setAddress] = useState(user?.address);
@@ -42,20 +23,20 @@ const EditProfileForm = () => {
     const [dateOfBirth, setDateOfBirth] = useState(user?.dateOfBirth);
     const [phone, setPhone] = useState(user?.phone);
     const [pincode, setPincode] = useState(user?.pincode);
-    const [state, setState] = useState(user?.state);
+    const [State, setState] = useState(user?.state);
     const [shopName, setShopName] = useState(user?.ShopName || "");
     const [shopAddress, setShopAddress] = useState(user?.ShopAddress || "");
     const [file, setFile] = useState(null);
 
-    const handleFileChange = (e) => {
+    const handleFileChange = (e:any) => {
         setFile(e.target.files[0]);
     };
-    // console.log(user)
+    // console.log(state)
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e:any) => {
         e.preventDefault();
 
-        let photoURL = user.photo;
+        let photoURL = user?.photo;
 
         if (file) {
             const storage = getStorage();
@@ -74,39 +55,19 @@ const EditProfileForm = () => {
             pincode,
             state,
             photo: photoURL,
+            uid: user?.uid,
         };
 
-        if (user.isSeller) {
+        if (user?.isSeller) {
             updatedData.ShopName = shopName;
             updatedData.ShopAddress = shopAddress;
         }
 
         try {
-            // Update document in Firestore
-            await UpdateDocument("User", user.uid, updatedData);
-
-            // Update user details in Authentication
-            const updateAuthProfile = updateProfile(currentUser, {
-                displayName: updatedData.name,
-                phoneNumber: updatedData.phone,
-            });
-
-            // Update User in local storage
-            const updateLocalStorage = new Promise<void>((resolve) => {
-                const localStorageUser = JSON.parse(localStorage.getItem('User') || '{}');
-                const updatedLocalStorageUser = { ...localStorageUser, ...updatedData };
-                localStorage.setItem('User', JSON.stringify(updatedLocalStorageUser));
-                resolve();
-            });
-
-            // Waiting for all functions to be finished
-            await Promise.all([updateAuthProfile, updateLocalStorage]);
-
+            await EditUser(updatedData);
             toast.success("Profile updated successfully!");
-
-            window.location.reload()
         } catch (error) {
-            toast.error("Error updating profile: " + error.message);
+            toast.error("Failed to update profile. Please try again.");
         }
     };
 
@@ -124,7 +85,7 @@ const EditProfileForm = () => {
             <div>
                 <input
                     type="text"
-                    value={user.email ?? ""}
+                    value={user?.email ?? ""}
                     placeholder="email"
                     disabled
                     className="w-full border cursor-not-allowed border-gray-300 p-2 rounded"
@@ -186,13 +147,13 @@ const EditProfileForm = () => {
             <div>
                 <input
                     type="text"
-                    value={state}
+                    value={State}
                     onChange={(e) => setState(e.target.value)}
                     placeholder="State"
                     className="w-full border border-gray-300 p-2 rounded"
                 />
             </div>
-            {user.isSeller && (
+            {user?.isSeller && (
                 <>
                     <div>
                         <input

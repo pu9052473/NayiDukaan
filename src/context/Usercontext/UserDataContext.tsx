@@ -4,7 +4,8 @@ import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { toast } from 'react-toastify';
 import { auth, db } from '@/firebase/config';
 import { User } from '@/types.index';
-import { onAuthStateChanged, signOut } from 'firebase/auth';
+import { onAuthStateChanged, signOut, updateProfile } from 'firebase/auth';
+import { UpdateDocument } from '@/utils/EditData';
 
 interface State {
     user: User | null;
@@ -24,6 +25,9 @@ type Action =
     | { type: 'FETCH_START' }
     | { type: 'FETCH_SUCCESS'; payload: User }
     | { type: 'FETCH_FAILURE'; payload: string }
+    | { type: 'EDIT_START' }
+    | { type: 'EDIT_SUCCESS'; payload: User }
+    | { type: 'EDIT_FAILURE'; payload: string }
     | { type: 'LOGOUT' };
 
 const userDataReducer = (state: State, action: Action): State => {
@@ -36,6 +40,12 @@ const userDataReducer = (state: State, action: Action): State => {
             return { ...state, loading: false, error: action.payload, success: false };
         case 'LOGOUT':
             return { ...state, user: null, success: false };
+        case 'EDIT_START':
+            return { ...state, loading: true, error: null, success: false }
+        case 'EDIT_SUCCESS':
+            return { ...state, user: action.payload, loading: false, success: true };
+        case 'EDIT_FAILURE':
+            return { ...state, loading: false, success: false, error: action.payload };
         default:
             return state;
     }
@@ -45,6 +55,7 @@ interface ContextProps {
     state: State;
     fetchUserData: (user: User) => Promise<void>;
     logoutUser: () => Promise<void>;
+    EditUser: (updatedData: Partial<User>) => Promise<void>;
 }
 
 const UserDataContext = createContext<ContextProps | undefined>(undefined);
@@ -110,6 +121,33 @@ export const UserDataProvider: React.FC<UserDataProviderProps> = ({ children }) 
         }
     };
 
+    const EditUser = async (updatedData: any) => {
+        try {
+            if (!state.user) throw new Error('No user to update');
+
+            dispatch({ type: 'EDIT_START' });
+
+            //Update data in firestore
+            UpdateDocument("User", state.user.uid, updatedData);
+
+            // Update user details in Authentication
+            await updateProfile(auth.currentUser!, {
+                displayName: updatedData.name,
+                photoURL: updatedData.photo,
+            });
+
+            const FinalUpdatedUser = { ...state.user, ...updatedData };
+            console.log("Updated user: ", FinalUpdatedUser);
+            dispatch({ type: 'EDIT_SUCCESS', payload: FinalUpdatedUser });
+
+            // Update local storage
+            localStorage.setItem('User', JSON.stringify(FinalUpdatedUser));
+        } catch (error) {
+            dispatch({ type: 'EDIT_FAILURE', payload: error instanceof Error ? error.message : 'Failed to update profile' });
+        }
+    };
+
+
     // Calling fetchuserData method if user is authenticated
     useEffect(() => {
         //get user from auth and fetch data from document
@@ -126,7 +164,7 @@ export const UserDataProvider: React.FC<UserDataProviderProps> = ({ children }) 
     }, []);
 
     return (
-        <UserDataContext.Provider value={{ state, fetchUserData, logoutUser }}>
+        <UserDataContext.Provider value={{ state, fetchUserData, logoutUser, EditUser }}>
             {children}
         </UserDataContext.Provider>
     );
