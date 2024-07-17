@@ -1,23 +1,27 @@
 "use client";
 
+import { useUserData } from "@/context/Usercontext/UserDataContext";
 import CustomerDashboardPagesAPI from "../API/CustomerDashboardPagesAPI";
-import { User } from "@/types.index";
 import Link from "next/link";
 
 import { usePathname } from "next/navigation";
-import { useEffect } from "react";
 
 const page = () => {
-  const user = localStorage.getItem("User") ?? "";
-  const userObject: User = JSON.parse(user);
+  const { state } = useUserData()
+  const { user } = state;
   const pathname = usePathname();
 
-  useEffect(() => {
-    // Check if user is seller
-    if (userObject.isSeller) {
-      window.location.href = "/SellerDashboard/MyProfile"
-    }
-  }, [])
+  if (state.error) {
+    console.log(state.error);
+  }
+  if (state.loading) {
+    return <>Loading...</>
+  }
+
+  // Check if user is seller
+  if (user?.isSeller && user) {
+    window.location.href = "/SellerDashboard/MyProfile"
+  }
 
   const activePathClassName = "text-gray-950 font-medium bg-theme2 ";
 
@@ -25,17 +29,19 @@ const page = () => {
     <>
       <aside className="w-1/5 bg-theme3 p-7 drop-shadow-md ">
         <div className="text-center my-4 flex flex-col gap-4">
-          <h2 className=" font-bold text-gray-900">Customer Profile</h2>
+          <h2 className=" font-bold text-gray-900">
+            {user?.isSeller == true ? "Sellers Profile" : "Customer Profile"}
+          </h2>
 
           <img
-            src={userObject.photo}
+            src={user?.photo}
             alt="User Avatar"
             className="w-20 h-20 rounded-full mx-auto"
           />
 
           <h3 className="text-xl font-semibold text-gray-900">
             Welcome {"  "}
-            <b>{userObject.name}</b>
+            <b>{user?.name}</b>
           </h3>
         </div>
 

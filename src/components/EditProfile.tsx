@@ -28,12 +28,12 @@ const EditProfileForm = () => {
     const [shopAddress, setShopAddress] = useState(user?.ShopAddress || "");
     const [file, setFile] = useState(null);
 
-    const handleFileChange = (e:any) => {
+    const handleFileChange = (e: any) => {
         setFile(e.target.files[0]);
     };
-    // console.log(state)
+    console.log(state)
 
-    const handleSubmit = async (e:any) => {
+    const handleSubmit = async (e: any) => {
         e.preventDefault();
 
         let photoURL = user?.photo;
@@ -53,7 +53,7 @@ const EditProfileForm = () => {
             dateOfBirth,
             phone,
             pincode,
-            state,
+            state: State,
             photo: photoURL,
             uid: user?.uid,
         };

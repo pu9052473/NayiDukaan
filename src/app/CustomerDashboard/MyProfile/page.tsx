@@ -9,23 +9,32 @@ import { User } from "@/types.index";
 import { Button } from "@mui/material";
 
 import Link from "next/link";
+import { useUserData } from "@/context/Usercontext/UserDataContext";
 
 const page = () => {
+    const { state } = useUserData();
+    const { user, loading, error } = state;
+
+    if (error) {
+        console.log(error);
+    }
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+    console.log(user);
     const [userData, setUserData] = useState<User>({});
-
     useEffect(() => {
-        const UserFromLocalStorage = localStorage.getItem("User");
+        if (user) {
+            setUserData(user);
+        }
+    }, [user]);
 
-        const user = JSON.parse(UserFromLocalStorage);
-
-        console.log(user);
-
-        setUserData(user);
-    }, []);
+    const hiddenKeys = ["isSeller", "uid", "photo"];
 
     const displayedUserData = Object.fromEntries(
         Object.entries(userData).filter(
-            ([key]) => key !== "customer" && key !== "seller"
+            ([key]) => !hiddenKeys.includes(key)
         )
     );
 
