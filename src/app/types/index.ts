@@ -9,3 +9,12 @@ export interface CustomButtonProps {
     rightIcon?: string
     isDisabled?: boolean;
 }
+
+export interface Product {
+    productName: string;
+    description: string;
+    category: string;
+    price: number;
+    productImage: string;
+    sellerId:string;
+  }

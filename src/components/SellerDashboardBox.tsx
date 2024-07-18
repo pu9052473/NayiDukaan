@@ -6,7 +6,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import SellerDashboardPagesAPI from "@/API/SellerDashboardPagesAPI";
 
-const page = () => {
+const SellerDashboardBox = () => {
   const { state } = useUserData()
   const { user } = state;
   const pathname = usePathname();
@@ -27,7 +27,7 @@ const page = () => {
 
   return (
     <>
-      <aside className="w-1/5 bg-theme3 p-7 drop-shadow-md ">
+      <aside className="w-1/4 bg-theme3 p-7 drop-shadow-md ">
         <div className="text-center my-4 flex flex-col gap-4">
           <h2 className=" font-bold text-gray-900">
             Seller Profile
@@ -45,12 +45,12 @@ const page = () => {
           </h3>
         </div>
 
-        <nav className="mt-10">
+        <nav className="mt-10 w-full">
           {SellerDashboardPagesAPI.map((items) => (
             <Link
               key={items.title}
               href={items.href}
-              className={`flex items-center px-4 rounded-lg py-2 text-gray-700 hover:bg-theme2 ${pathname === `${items.href}` ? `${activePathClassName}` : ""
+              className={`flex items-center px-1 rounded-lg py-2 text-gray-700 hover:bg-theme2 ${pathname === `${items.href}` ? `${activePathClassName}` : ""
                 }`}
             >
               {items.icon}
@@ -64,4 +64,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default SellerDashboardBox;
