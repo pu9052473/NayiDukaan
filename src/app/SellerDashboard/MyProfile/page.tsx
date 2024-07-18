@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { User } from "@/types.index";
 import { Button } from "@mui/material";
 import Link from "next/link";
-import SellerDashboardBox from "@/Components/SellerDashboardBox";
 import { useUserData } from "@/context/Usercontext/UserDataContext";
 
 const page = () => {
@@ -37,8 +36,6 @@ const page = () => {
     return (
         <>
             <div className="flex h-screen">
-                <SellerDashboardBox />
-
                 <main className="w-4/5 p-6">
                     <h2 className="text-2xl font-semibold mb-4 text-gray-800">
                         Seller Profile Page
