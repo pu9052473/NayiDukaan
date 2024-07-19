@@ -46,21 +46,28 @@ const page = () => {
   if (error) {
     return <Typography color="error">{error}</Typography>;
   }
+  console.log(products)
 
   return (
     <div className="flex h-screen">
       <main className="w-4/5 p-6">
         <h2 className="text-2xl font-semibold mb-4 text-gray-800">
-          Your Products
+          My Products
 
         </h2>
-        <Grid container spacing={2}>
+        {/* <Grid container spacing={10}>
           {products.map((product) => (
             <Grid item xs={12} sm={6} md={4} key={product.id}>
               <ProductCard {...product} />
             </Grid>
           ))}
-        </Grid>
+        </Grid> */}
+        <div className="flex flex-wrap justify-between items-center">
+
+          {products.map((product) => (
+            <ProductCard {...product} />
+          ))}
+        </div>
       </main>
     </div>
   );

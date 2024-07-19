@@ -11,10 +11,11 @@ export interface CustomButtonProps {
 }
 
 export interface Product {
+    id: string;
     productName: string;
     description: string;
     category: string;
     price: number;
     productImage: string;
-    sellerId:string;
-  }
+    sellerId: string;
+}

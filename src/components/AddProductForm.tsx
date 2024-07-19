@@ -125,7 +125,7 @@ const AddProductForm: React.FC = () => {
                 <Grid item xs={12}>
                     <Button variant="contained" component="label">
                         Upload Image
-                        <input type="file" hidden onChange={handleFileChange} required/>
+                        <input type="file" hidden onChange={handleFileChange} required />
                     </Button>
                 </Grid>
                 <Grid item xs={12}>
