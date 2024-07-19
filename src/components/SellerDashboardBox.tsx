@@ -27,7 +27,7 @@ const SellerDashboardBox = () => {
 
   return (
     <>
-      <aside className="w-1/4 bg-theme3 p-7 drop-shadow-md ">
+      <aside className="w-1/4bg-theme3 p-7 drop-shadow-md ">
         <div className="text-center my-4 flex flex-col gap-4">
           <h2 className=" font-bold text-gray-900">
             Seller Profile
