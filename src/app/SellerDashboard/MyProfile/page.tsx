@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { User } from "@/types.index";
 import { Button } from "@mui/material";
 import Link from "next/link";
 import { useUserData } from "@/context/Usercontext/UserDataContext";
+import { User } from "@/app/types";
 
 const page = () => {
     const { state } = useUserData();

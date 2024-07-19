@@ -1,5 +1,5 @@
 "use client";
-import { User } from '@/types.index';
+import { User } from '@/app/types';
 import { UpdateDocument } from '@/utils/EditData';
 import { Button, TextField, Container, Typography, Box } from '@mui/material';
 import React, { useState } from 'react';

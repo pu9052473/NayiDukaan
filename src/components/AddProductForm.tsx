@@ -15,8 +15,7 @@ import { useUserData } from "@/context/Usercontext/UserDataContext";
 import { Product } from "@/app/types";
 import { AddDataToFirestore } from "@/utils/AddData";
 import { ToastContainer, toast } from "react-toastify";
-
-
+import 'react-toastify/dist/ReactToastify.css';
 
 const AddProductForm: React.FC = () => {
     const { state } = useUserData()

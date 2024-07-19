@@ -40,14 +40,6 @@ const SellerDashboardPagesAPI = [
     },
 
     {
-        title: "Edit Products",
-
-        href: "/SellerDashboard/Products/Edit$id",
-
-        icon: <TbShoppingBagEdit className={iconClassName} />,
-    },
-
-    {
         title: "Analytics",
 
         href: "/SellerDashboard/Analytics",
