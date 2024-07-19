@@ -11,33 +11,43 @@ const page = () => {
   const userObject: User = JSON.parse(user);
   const pathname = usePathname();
 
-  const activePathClassName = "text-gray-950 font-medium bg-theme2 ";
+  const cbLinksClassName =
+    "flex items-center px-4 py-2 gap-2 transition-colors duration-200 ";
+
+  const unActivePathClassNameCB =
+    "text-gray-600 hover:text-colorOne hover:font-medium";
+  const activePathClassNameCB =
+    "text-white font-medium bg-colorOne hover:text-white rounded-lg";
 
   return (
     <>
-      <aside className="w-1/5 bg-theme3 p-7 drop-shadow-md ">
-        <div className="text-center my-4 flex flex-col gap-4">
-          <h2 className=" font-bold text-gray-900">Customer Profile</h2>
-
+      <aside className="w-1/5 shadow-lg  rounded-tr-3xl">
+        <div className="text-center flex flex-col gap-4">
+          <h1 className=" font-semibold text-gray-600 bg-colorThree rounded-tr-3xl p-2 shadow">
+            Customer Dashboard
+          </h1>
           <img
             src={userObject.photo}
             alt="User Avatar"
             className="w-20 h-20 rounded-full mx-auto"
           />
 
-          <h3 className="text-xl font-semibold text-gray-900">
+          <h3 className="text-lg text-gray-900">
             Welcome {"  "}
-            <b>{userObject.name}</b>
+            <b className="text-colorOne">{userObject.name}</b>
           </h3>
         </div>
 
-        <nav className="mt-10">
+        <nav className="m-5">
           {CustomerDashboardPagesAPI.map((items) => (
             <Link
               key={items.title}
               href={items.href}
-              className={`flex items-center px-4 rounded-lg py-2 text-gray-700 hover:bg-theme2 ${pathname === `${items.href}` ? `${activePathClassName}` : ""
-                }`}
+              className={`${cbLinksClassName} ${
+                pathname === `${items.href}`
+                  ? `${activePathClassNameCB}`
+                  : ` ${unActivePathClassNameCB}`
+              }`}
             >
               {items.icon}
 

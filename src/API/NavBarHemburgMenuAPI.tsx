@@ -1,16 +1,16 @@
-import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
-
 import { FiPackage } from "react-icons/fi";
 
 import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
-
-import ModeEditRoundedIcon from "@mui/icons-material/ModeEditRounded";
 
 import ShoppingCartRoundedIcon from "@mui/icons-material/ShoppingCartRounded";
 
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 
 import HeadsetMicRoundedIcon from "@mui/icons-material/HeadsetMicRounded";
+
+import { FaUser } from "react-icons/fa";
+
+import { FaUserEdit } from "react-icons/fa";
 
 const iconClassName = "h-5 w-5 cursor-pointer";
 
@@ -20,7 +20,7 @@ const NavBarHemburgMenuAPI = [
 
         href: "/CustomerDashboard/MyProfile",
 
-        icon: <PersonRoundedIcon className={iconClassName} />,
+        icon: <FaUser className=" cursor-pointer h-4 w-5" />,
     },
 
     {
@@ -52,7 +52,7 @@ const NavBarHemburgMenuAPI = [
 
         href: "/CustomerDashboard/MyProfile/EditProfile",
 
-        icon: <ModeEditRoundedIcon className={iconClassName} />,
+        icon: <FaUserEdit className={iconClassName} />,
     },
 
     {

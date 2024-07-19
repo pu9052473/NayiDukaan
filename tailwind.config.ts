@@ -9,9 +9,12 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        theme2: "#e9eef6",
-        theme3: "#f8fafd"
-      },
+        colorOne: '#E87D20',
+        colorTwo:"#f8fafd",
+        colorThree: "#e9eef6",
+        colorFour: "#e87d2051",
+        colorFive:"#ff8000  "
+       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
