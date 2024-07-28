@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import {
     TextField,
     Button,
@@ -10,66 +10,19 @@ import {
     InputLabel,
     FormControl,
 } from "@mui/material";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { useUserData } from "@/context/Usercontext/UserDataContext";
-import { Product } from "@/app/types";
-import { AddDataToFirestore } from "@/utils/AddData";
-import { ToastContainer, toast } from "react-toastify";
+import { useAddProduct } from "@/context/ProductContext/ProductDataContext";
+import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "@/firebase/config";
 
 const AddProductForm: React.FC = () => {
-    const { state } = useUserData()
-    const { user } = state;
-    // console.log("user frm: ", user);
-
-
-    const [productData, setProductData] = useState<Product>({
-        productName: "",
-        description: "",
-        category: "",
-        price: 0,
-        productImage: "",
-        sellerId: "",
-    });
-    const [file, setFile] = useState<File | null>(null);
-
-
-
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files) {
-            setFile(e.target.files[0]);
-            if (user) {
-                setProductData({ ...productData, sellerId: user.uid })
-            }
-        }
-    };
-
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        setProductData({ ...productData, [name]: value });
-    };
-
-    const handleCategoryChange = (e: React.ChangeEvent<{ value: unknown }>) => {
-        setProductData({ ...productData, category: e.target.value as string });
-    };
+    const { state, addProduct, handleInputChange, handleFileChange } = useAddProduct();
+    const { productData, loading } = state;
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (file) {
-            const storage = getStorage();
-            const storageRef = ref(storage, `images/products/${file.name}`);
-            await uploadBytes(storageRef, file);
-            const productImage = await getDownloadURL(storageRef);
-
-            const finalProductData = { ...productData, productImage };
-            const docRef = await addDoc(collection(db, "Products"),finalProductData);
-            console.log("Document written with ID: ", docRef.id);
-            // await AddDataToFirestore("Products", finalProductData);
-            toast.success("Product Created success full");
-            console.log("Product added successfully: ", finalProductData);
-        }
+        await addProduct();
     };
 
     return (
@@ -102,8 +55,9 @@ const AddProductForm: React.FC = () => {
                     <FormControl fullWidth>
                         <InputLabel>Category</InputLabel>
                         <Select
+                            name="category"
                             value={productData.category}
-                            onChange={handleCategoryChange}
+                            onChange={handleInputChange}
                             fullWidth
                             required
                         >
@@ -131,8 +85,14 @@ const AddProductForm: React.FC = () => {
                     </Button>
                 </Grid>
                 <Grid item xs={12}>
-                    <Button type="submit" variant="contained" color="primary" fullWidth>
-                        Add Product
+                    <Button
+                        type="submit"
+                        variant="contained"
+                        color="primary"
+                        fullWidth
+                        disabled={loading}
+                    >
+                        {loading ? 'Adding...' : 'Add Product'}
                     </Button>
                 </Grid>
             </Grid>
@@ -142,3 +102,4 @@ const AddProductForm: React.FC = () => {
 };
 
 export default AddProductForm;
+
