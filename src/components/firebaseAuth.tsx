@@ -1,24 +1,36 @@
 "use client";
-
 import React, { useState } from "react";
 import { auth, db } from "../firebase/config";
-import { GoogleAuthProvider, createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import {
+  GoogleAuthProvider,
+  createUserWithEmailAndPassword,
+  signInWithPopup,
+} from "firebase/auth";
 import { ToastContainer, toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 import { FcGoogle } from "react-icons/fc";
+
+import MainBtn from "./MainBtn";
+
 import { addDoc, collection, doc, setDoc } from "firebase/firestore";
 
 const FirebaseAuth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [firstName, setFirstName] = useState(""); // New state for First Name
+  const [lastName, setLastName] = useState(""); // New state for Last Name
 
   const handleEmailSignup = async () => {
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
       const user = userCredential.user;
 
       const userObject = {
-        name: "",
+        name: firstName + " " + lastName,
         email: user.email || "",
         address: "",
         pincode: "",
@@ -36,9 +48,8 @@ const FirebaseAuth = () => {
       console.log("Document written with ID: ", docRef);
 
       localStorage.setItem("User", JSON.stringify(userObject));
-
       toast.success("Signed up successfully!");
-      window.location.href = "/"
+      window.location.href = "/";
     } catch (error) {
       console.error("Error creating user or adding to Firestore: ", error);
       toast.error("Error: " + error.message);
@@ -47,7 +58,6 @@ const FirebaseAuth = () => {
 
   const handleGoogleSignup = async () => {
     const provider = new GoogleAuthProvider();
-
     try {
       const userCredential = await signInWithPopup(auth, provider);
       const userData = userCredential.user;
@@ -70,12 +80,13 @@ const FirebaseAuth = () => {
       console.log("Document written with ID: ", docRef);
 
       localStorage.setItem("User", JSON.stringify(userObject));
-
       toast.success("Signed up successfully!");
-      window.location.href = "/"
-
+      window.location.href = "/";
     } catch (error) {
-      console.error("Error signing in with Google or adding to Firestore: ", error);
+      console.error(
+        "Error signing in with Google or adding to Firestore: ",
+        error
+      );
       toast.error("Error: " + error.message);
     }
   };
@@ -84,6 +95,28 @@ const FirebaseAuth = () => {
     <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
       <div className="bg-white p-8 rounded shadow-lg w-96">
         <h1 className="text-2xl font-bold text-center mb-4">Signup</h1>
+
+        <div className="mb-4">
+          <input
+            type="text"
+            id="firstName"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+            placeholder="First Name"
+            className="w-full border border-gray-300 p-2 rounded focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
+          />
+        </div>
+
+        <div className="mb-4">
+          <input
+            type="text"
+            id="lastName"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+            placeholder="Last Name"
+            className="w-full border border-gray-300 p-2 rounded focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
+          />
+        </div>
 
         <div className="mb-4">
           <input
@@ -107,19 +140,17 @@ const FirebaseAuth = () => {
           />
         </div>
 
-        <button
-          onClick={handleEmailSignup}
-          className="bg-gray-800 text-white w-full py-2 rounded hover:bg-gray-900 transition-colors duration-200 shadow-md"
-        >
-          Signup with Email
-        </button>
-
-        <button
-          onClick={handleGoogleSignup}
-          className="w-full py-2 rounded mt-4 transition-colors duration-200 shadow-md"
-        >
-          <FcGoogle className="inline-block ml-2" /> Signup with Google
-        </button>
+        <MainBtn
+          value="Signup with Email"
+          className="w-full py-2 mt-4 bg-colorOne text-white"
+          onClickFunc={handleEmailSignup}
+        />
+        <MainBtn
+          value="Signup with Google"
+          logo={<FcGoogle className="h-5 w-5 cursor-pointer" />}
+          className="w-full py-2 bg-colorThree mt-4 "
+          onClickFunc={handleGoogleSignup}
+        />
 
         <ToastContainer />
       </div>

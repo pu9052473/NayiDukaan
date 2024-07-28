@@ -16,6 +16,8 @@ import { Product } from "@/app/types";
 import { AddDataToFirestore } from "@/utils/AddData";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { collection, addDoc } from "firebase/firestore";
+import { db } from "@/firebase/config";
 
 const AddProductForm: React.FC = () => {
     const { state } = useUserData()
@@ -62,8 +64,9 @@ const AddProductForm: React.FC = () => {
             const productImage = await getDownloadURL(storageRef);
 
             const finalProductData = { ...productData, productImage };
-
-            await AddDataToFirestore("Products", finalProductData);
+            const docRef = await addDoc(collection(db, "Products"),finalProductData);
+            console.log("Document written with ID: ", docRef.id);
+            // await AddDataToFirestore("Products", finalProductData);
             toast.success("Product Created success full");
             console.log("Product added successfully: ", finalProductData);
         }
@@ -124,7 +127,7 @@ const AddProductForm: React.FC = () => {
                 <Grid item xs={12}>
                     <Button variant="contained" component="label">
                         Upload Image
-                        <input type="file" hidden onChange={handleFileChange} required />
+                        <input type="file" hidden onChange={handleFileChange}  />
                     </Button>
                 </Grid>
                 <Grid item xs={12}>

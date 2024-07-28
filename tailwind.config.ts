@@ -13,7 +13,7 @@ const config: Config = {
         colorTwo: "#f8fafd",
         colorThree: "#e9eef6",
         colorFour: "#e87d2051",
-        colorFive: "#ff8000"
+        colorFive: "#ff8000",
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

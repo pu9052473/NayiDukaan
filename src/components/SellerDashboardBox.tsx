@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 import SellerDashboardPagesAPI from "@/API/SellerDashboardPagesAPI";
 
 const SellerDashboardBox = () => {
-  const { state } = useUserData()
+  const { state } = useUserData();
   const { user } = state;
   const pathname = usePathname();
 
@@ -15,43 +15,51 @@ const SellerDashboardBox = () => {
     console.log(state.error);
   }
   if (state.loading) {
-    return <>Loading...</>
+    return <>Loading...</>;
   }
 
   // Check if user is seller
   if (!user?.isSeller && user) {
-    window.location.href = "/CustomerDashboard/MyProfile"
+    window.location.href = "/CustomerDashboard/MyProfile";
   }
 
-  const activePathClassName = "text-gray-950 font-medium bg-theme2 ";
+  const sbLinksClassName =
+    "flex items-center px-4 py-2 gap-2 transition-colors duration-200 ";
+
+  const unActivePathClassNameSB =
+    "text-gray-600 hover:text-colorOne hover:font-medium";
+  const activePathClassNameSB =
+    "text-white font-medium bg-colorOne hover:text-white rounded-lg";
 
   return (
     <>
-      <aside className="w-1/4bg-theme3 p-7 drop-shadow-md ">
-        <div className="text-center my-4 flex flex-col gap-4">
-          <h2 className=" font-bold text-gray-900">
-            Seller Profile
-          </h2>
-
+      <aside className="w-1/5 shadow-lg  rounded-tr-3xl">
+        <div className="text-center flex flex-col gap-4">
+          <h1 className=" font-semibold text-gray-600 bg-colorThree rounded-tr-3xl p-2 shadow">
+            Seller Dashboard
+          </h1>
           <img
             src={user?.photo}
             alt="User Avatar"
             className="w-20 h-20 rounded-full mx-auto"
           />
 
-          <h3 className="text-xl font-semibold text-gray-900">
+          <h3 className="text-lg text-gray-900">
             Welcome {"  "}
-            <b>{user?.name}</b>
+            {/* <b className="text-colorOne">{user.name}</b> */}
           </h3>
         </div>
 
-        <nav className="mt-10 w-full">
+        <nav className="m-5">
           {SellerDashboardPagesAPI.map((items) => (
             <Link
               key={items.title}
               href={items.href}
-              className={`flex items-center px-1 rounded-lg py-2 text-gray-700 hover:bg-theme2 ${pathname === `${items.href}` ? `${activePathClassName}` : ""
-                }`}
+              className={`${sbLinksClassName} ${
+                pathname === `${items.href}`
+                  ? `${activePathClassNameSB}`
+                  : ` ${unActivePathClassNameSB}`
+              }`}
             >
               {items.icon}
 

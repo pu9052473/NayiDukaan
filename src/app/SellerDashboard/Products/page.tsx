@@ -5,7 +5,7 @@ import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '@/firebase/config';
 import { Grid, CircularProgress, Typography } from '@mui/material';
 import { useUserData } from '@/context/Usercontext/UserDataContext';
-import ProductCard from '@/components/ProductCard';
+import ProductCard from '../../../Components/ProductCard';
 
 const page = () => {
   const { state } = useUserData();
