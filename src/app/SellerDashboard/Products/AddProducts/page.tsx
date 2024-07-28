@@ -1,4 +1,5 @@
 import AddProductForm from "@/components/AddProductForm";
+import { AddProductProvider } from "@/context/ProductContext/ProductDataContext";
 import React from "react";
 
 
@@ -9,7 +10,9 @@ const page = () => {
         <h2 className="text-2xl font-semibold mb-4 text-gray-800">
           Add Products
         </h2>
-        <AddProductForm />
+        <AddProductProvider>
+          <AddProductForm />
+        </AddProductProvider>
       </main>
     </div>
   );
