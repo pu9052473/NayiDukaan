@@ -1,16 +1,16 @@
-import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
+import { FaUser } from "react-icons/fa";
 
 import { FiPackage } from "react-icons/fi";
 
-import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
+import { FaUserEdit } from "react-icons/fa";
 
-import ModeEditRoundedIcon from "@mui/icons-material/ModeEditRounded";
+import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
 
 import ShoppingCartRoundedIcon from "@mui/icons-material/ShoppingCartRounded";
 
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 
-import WalletRoundedIcon from '@mui/icons-material/WalletRounded';
+import WalletRoundedIcon from "@mui/icons-material/WalletRounded";
 
 const iconClassName = "h-5 w-5 cursor-pointer";
 
@@ -20,7 +20,7 @@ const CustomerDashboardPagesAPI = [
 
         href: "/CustomerDashboard/MyProfile",
 
-        icon: <PersonRoundedIcon className={iconClassName} />,
+        icon: <FaUser className="cursor-pointer h-4 w-5"/>,
     },
 
     {
@@ -52,7 +52,7 @@ const CustomerDashboardPagesAPI = [
 
         href: "/CustomerDashboard/MyProfile/EditProfile",
 
-        icon: <ModeEditRoundedIcon className={iconClassName} />,
+        icon: <FaUserEdit className={iconClassName} />,
     },
     {
         title: "Wallet",
@@ -61,7 +61,6 @@ const CustomerDashboardPagesAPI = [
 
         icon: <WalletRoundedIcon className={iconClassName} />,
     },
-
 
     {
         title: "Setting",
